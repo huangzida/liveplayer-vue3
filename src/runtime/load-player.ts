@@ -18,8 +18,6 @@ export const loadPlayerComponent = async (assetBaseUrl?: string): Promise<Loaded
   const baseUrl = resolveAssetBaseUrl(assetBaseUrl);
   const resolvedAssetUrls = {
     script: `${baseUrl}/liveplayer-lib.min.js`,
-    swf: `${baseUrl}/liveplayer.swf`,
-    crossdomain: `${baseUrl}/crossdomain.xml`,
   };
 
   return {

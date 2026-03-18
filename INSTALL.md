@@ -128,7 +128,7 @@ You can also use via CDN:
 
 ### Props
 
-See [LivePlayer Props](https://github.com/your-github-username/liveplayer-vue3/blob/main/docs/props.md) for all available properties.
+See [LivePlayer Props](https://github.com/huangzida/liveplayer-vue3/blob/main/docs/props.md) for all available properties.
 
 ### Events
 

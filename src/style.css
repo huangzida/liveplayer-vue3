@@ -10,14 +10,14 @@
 }
 
 [data-theme="light"] {
-  --liveplayer-surface: rgba(255, 255, 255, 0.85);
-  --liveplayer-border: rgba(0, 0, 0, 0.1);
+  --liveplayer-surface: rgba(255, 255, 255, 0.9);
+  --liveplayer-border: rgba(0, 0, 0, 0.08);
   --liveplayer-text: #1e293b;
   --liveplayer-accent: #f59e0b;
-  --liveplayer-bg-start: rgba(241, 245, 249, 0.95);
-  --liveplayer-bg-end: rgba(226, 232, 240, 1);
-  --liveplayer-layer-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(241, 245, 249, 0.58));
-  --liveplayer-panel-border: rgba(0, 0, 0, 0.1);
+  --liveplayer-bg-start: rgba(255, 255, 255, 0.95);
+  --liveplayer-bg-end: rgba(248, 250, 252, 1);
+  --liveplayer-layer-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(248, 250, 252, 0.9));
+  --liveplayer-panel-border: rgba(0, 0, 0, 0.08);
 }
 
 .liveplayer-vue3 {

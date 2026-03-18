@@ -17,10 +17,13 @@ export default [
   {
     ignores: [
       'dist/**',
-      'docs/.vitepress/dist/**',
+      'docs/.vitepress/**',
+      '.vitepress/**',
       'docs/public/**',
       'playground/dist/**',
       'playground/public/**',
+      '.artifacts/**',
+      'coverage/**',
       'node_modules/**',
     ],
   },
@@ -39,7 +42,7 @@ export default [
     },
     rules: {
       '@typescript-eslint/consistent-type-imports': 'error',
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-console': ['warn', { allow: ['warn', 'error', 'log'] }],
       'no-undef': 'off',
       'no-unused-vars': 'off',
     },

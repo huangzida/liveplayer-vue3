@@ -12,8 +12,6 @@ export interface LivePlayerRetryOptions {
 
 export interface LivePlayerAssetUrls {
   script: string;
-  swf: string;
-  crossdomain: string;
 }
 
 export interface LivePlayerError {

@@ -15,6 +15,9 @@ export default defineConfig({
   base: isGithubPages ? `/${repoName}/` : '/',
   cleanUrls: true,
   srcDir: '.',
+  head: [
+    ['script', { src: '/assets/liveplayer/liveplayer-lib.min.js', async: 'true' }],
+  ],
   vite: {
     resolve: {
       alias: {
@@ -22,11 +25,6 @@ export default defineConfig({
         '@playground': resolve(root, 'playground/src'),
       },
     },
-    plugins: [
-      livePlayerVue3Plugin({
-        assetBaseUrl: isGithubPages ? `/${repoName}/assets/liveplayer` : '/assets/liveplayer'
-      }),
-    ],
   },
   themeConfig: {
     nav: [
@@ -49,7 +47,7 @@ export default defineConfig({
         ],
       },
     ],
-    socialLinks: [{ icon: 'github', link: 'https://github.com/your-github-username/liveplayer-vue3' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/huangzida/liveplayer-vue3' }],
     search: {
       provider: 'local',
     },

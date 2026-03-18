@@ -58,8 +58,6 @@ vi.mock('../src/runtime/load-player', () => {
       component: StubPlayer,
       assetUrls: {
         script: '/assets/liveplayer/liveplayer-lib.min.js',
-        swf: '/assets/liveplayer/liveplayer.swf',
-        crossdomain: '/assets/liveplayer/crossdomain.xml',
       },
     })),
   };

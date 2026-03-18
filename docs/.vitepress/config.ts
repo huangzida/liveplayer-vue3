@@ -2,12 +2,12 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 import { defineConfig } from 'vitepress';
-import { livePlayerVue3Plugin } from '../../scripts/vitepress-plugin';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..', '..');
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'liveplayer-vue3';
 const isGithubPages = process.env.GITHUB_ACTIONS === 'true' && process.env.GITHUB_REPOSITORY;
+const basePath = isGithubPages ? `/${repoName}` : '';
 
 export default defineConfig({
   title: 'liveplayer-vue3',
@@ -16,7 +16,7 @@ export default defineConfig({
   cleanUrls: true,
   srcDir: '.',
   head: [
-    ['script', { src: '/assets/liveplayer/liveplayer-lib.min.js', async: 'true' }],
+    ['script', { src: `${basePath}/assets/liveplayer/liveplayer-lib.min.js`, async: 'true' }],
   ],
   vite: {
     resolve: {

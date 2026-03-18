@@ -1,0 +1,54 @@
+:root {
+  --liveplayer-surface: rgba(7, 11, 20, 0.78);
+  --liveplayer-border: rgba(148, 163, 184, 0.2);
+  --liveplayer-text: #f8fafc;
+  --liveplayer-accent: #f59e0b;
+}
+
+.liveplayer-vue3 {
+  position: relative;
+  min-height: 280px;
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--liveplayer-border);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at top left, rgba(245, 158, 11, 0.18), transparent 30%),
+    linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 1));
+  color: var(--liveplayer-text);
+}
+
+.liveplayer-vue3__layer,
+.liveplayer-vue3__overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.liveplayer-vue3__overlay {
+  z-index: 3;
+}
+
+.liveplayer-vue3__panel,
+.liveplayer-vue3__empty {
+  position: absolute;
+  left: 24px;
+  bottom: 24px;
+  max-width: 18rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  background: var(--liveplayer-surface);
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.5;
+  backdrop-filter: blur(16px);
+}
+
+.liveplayer-vue3__layer--loading::before,
+.liveplayer-vue3__layer--error::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.08), rgba(2, 6, 23, 0.58));
+}

@@ -3,6 +3,21 @@
   --liveplayer-border: rgba(148, 163, 184, 0.2);
   --liveplayer-text: #f8fafc;
   --liveplayer-accent: #f59e0b;
+  --liveplayer-bg-start: rgba(15, 23, 42, 0.9);
+  --liveplayer-bg-end: rgba(2, 6, 23, 1);
+  --liveplayer-layer-bg: linear-gradient(180deg, rgba(15, 23, 42, 0.08), rgba(2, 6, 23, 0.58));
+  --liveplayer-panel-border: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] {
+  --liveplayer-surface: rgba(255, 255, 255, 0.85);
+  --liveplayer-border: rgba(0, 0, 0, 0.1);
+  --liveplayer-text: #1e293b;
+  --liveplayer-accent: #f59e0b;
+  --liveplayer-bg-start: rgba(241, 245, 249, 0.95);
+  --liveplayer-bg-end: rgba(226, 232, 240, 1);
+  --liveplayer-layer-bg: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(241, 245, 249, 0.58));
+  --liveplayer-panel-border: rgba(0, 0, 0, 0.1);
 }
 
 .liveplayer-vue3 {
@@ -14,7 +29,7 @@
   border-radius: 20px;
   background:
     radial-gradient(circle at top left, rgba(245, 158, 11, 0.18), transparent 30%),
-    linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 1));
+    linear-gradient(180deg, var(--liveplayer-bg-start), var(--liveplayer-bg-end));
   color: var(--liveplayer-text);
 }
 
@@ -36,13 +51,14 @@
   left: 24px;
   bottom: 24px;
   max-width: 18rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--liveplayer-panel-border);
   border-radius: 16px;
   background: var(--liveplayer-surface);
   padding: 12px 14px;
   font-size: 14px;
   line-height: 1.5;
   backdrop-filter: blur(16px);
+  color: var(--liveplayer-text);
 }
 
 .liveplayer-vue3__layer--loading::before,
@@ -50,5 +66,5 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.08), rgba(2, 6, 23, 0.58));
+  background: var(--liveplayer-layer-bg);
 }

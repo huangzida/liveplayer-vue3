@@ -1,16 +1,16 @@
 {
   "name": "liveplayer-vue3",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Enhanced Vue 3 wrapper for @liveqing/liveplayer-v3 with typed API, docs, and playground.",
   "type": "module",
   "license": "MIT",
-  "homepage": "https://your-github-username.github.io/liveplayer-vue3/",
+  "homepage": "https://huangzida.github.io/liveplayer-vue3/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-github-username/liveplayer-vue3.git"
+    "url": "git+https://github.com/huangzida/liveplayer-vue3.git"
   },
   "bugs": {
-    "url": "https://github.com/your-github-username/liveplayer-vue3/issues"
+    "url": "https://github.com/huangzida/liveplayer-vue3/issues"
   },
   "keywords": [
     "vue",
@@ -29,6 +29,7 @@
   },
   "files": [
     "dist",
+    "dist/assets",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
@@ -53,9 +54,9 @@
   "scripts": {
     "dev": "node scripts/sync-liveplayer-assets.mjs playground/public && vite --config playground/vite.config.ts",
     "build": "vite build && node scripts/sync-liveplayer-assets.mjs dist",
-    "build:docs": "node scripts/sync-liveplayer-assets.mjs docs/public && vitepress build docs",
+    "build:docs": "node scripts/sync-vitepress-assets.mjs && vitepress build docs",
     "build:playground": "node scripts/sync-liveplayer-assets.mjs playground/public && vite build --config playground/vite.config.ts",
-    "dev:docs": "node scripts/sync-liveplayer-assets.mjs docs/public && vitepress dev docs",
+    "dev:docs": "node scripts/sync-vitepress-assets.mjs && vitepress dev docs",
     "lint": "eslint .",
     "pack:check": "pnpm build && pnpm pack --pack-destination .artifacts",
     "preview:docs": "vitepress preview docs",

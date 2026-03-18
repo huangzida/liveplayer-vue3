@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 import { defineConfig } from 'vitepress';
+import { livePlayerVue3Plugin } from '../../scripts/vitepress-plugin';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..', '..');
@@ -21,6 +22,11 @@ export default defineConfig({
         '@playground': resolve(root, 'playground/src'),
       },
     },
+    plugins: [
+      livePlayerVue3Plugin({
+        assetBaseUrl: isGithubPages ? `/${repoName}/assets/liveplayer` : '/assets/liveplayer'
+      }),
+    ],
   },
   themeConfig: {
     nav: [

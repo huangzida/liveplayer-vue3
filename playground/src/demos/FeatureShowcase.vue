@@ -69,81 +69,94 @@ const callApi = (action: string) => {
 
   pushLog(`Called ${action}() from the public instance.`);
 };
+
+const clearLogs = () => {
+  logs.value = [];
+};
 </script>
 
 <template>
-  <section class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
-    <article class="overflow-hidden rounded-[32px] border border-white/10 bg-slate-950/50 p-4 shadow-[0_30px_80px_rgba(15,23,42,0.45)] backdrop-blur-2xl md:p-6">
+  <section class="grid gap-5 xl:grid-cols-[minmax(0,1.12fr)_minmax(300px,0.88fr)]">
+    <article class="overflow-hidden rounded-[32px] border border-slate-200 bg-white p-4 shadow-[0_24px_60px_rgba(15,23,42,0.12)] dark:border-slate-800 dark:bg-slate-950 dark:shadow-[0_30px_80px_rgba(15,23,42,0.45)] md:p-6">
       <div class="mb-4 flex flex-wrap items-center gap-3">
         <StatusBadge :label="status" tone="sky" />
         <StatusBadge :label="mode" tone="amber" />
         <StatusBadge :label="fit" tone="emerald" />
       </div>
-      <LivePlayer
-        ref="playerRef"
-        :src="source"
-        :mode="mode"
-        :fit="fit"
-        :muted="muted"
-        :autoplay="autoplay"
-        :controls="true"
-        :asset-base-url="baseAssetUrl"
-        title="Demo stream"
-        @ready="pushLog('Player emitted ready.')"
-        @status-change="status = $event"
-        @error="pushLog(`Player error: ${$event.message}`)"
-        @play="pushLog(`Play event at ${$event.toFixed?.(2) ?? $event}s`)"
-        @pause="pushLog(`Pause event at ${$event.toFixed?.(2) ?? $event}s`)"
-        @ended="pushLog('Playback ended.')"
-      >
-        <template #overlay="{ status: overlayStatus }">
-          <div class="pointer-events-none absolute right-4 top-4 rounded-full border border-white/10 bg-black/35 px-3 py-1 text-xs uppercase tracking-[0.3em] text-white/80">
-            {{ overlayStatus }}
-          </div>
-        </template>
-      </LivePlayer>
+
+      <div class="rounded-[24px] border border-slate-200 bg-slate-100 p-2 dark:border-slate-800 dark:bg-slate-900/70">
+        <LivePlayer
+          ref="playerRef"
+          :src="source"
+          :mode="mode"
+          :fit="fit"
+          :muted="muted"
+          :autoplay="autoplay"
+          :controls="true"
+          :asset-base-url="baseAssetUrl"
+          title="Demo stream"
+          @ready="pushLog('Player emitted ready.')"
+          @status-change="status = $event"
+          @error="pushLog(`Player error: ${$event.message}`)"
+          @play="pushLog(`Play event at ${$event.toFixed?.(2) ?? $event}s`)"
+          @pause="pushLog(`Pause event at ${$event.toFixed?.(2) ?? $event}s`)"
+          @ended="pushLog('Playback ended.')"
+        >
+          <template #overlay="{ status: overlayStatus }">
+            <div class="pointer-events-none absolute right-4 top-4 rounded-full border border-slate-300/60 bg-white/80 px-3 py-1 text-xs uppercase tracking-[0.3em] text-slate-700 backdrop-blur-sm dark:border-white/10 dark:bg-black/35 dark:text-white/80">
+              {{ overlayStatus }}
+            </div>
+          </template>
+        </LivePlayer>
+      </div>
+
+      <div class="mt-5 rounded-[22px] border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900/65">
+        <div class="mb-3 flex items-center justify-between">
+          <h2 class="text-base font-semibold text-slate-900 dark:text-white">Quick controls</h2>
+          <p class="text-xs uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Public instance</p>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <button class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700" @click="callApi('play')">play()</button>
+          <button class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700" @click="callApi('pause')">pause()</button>
+          <button class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700" @click="callApi('snapshot')">snapshot()</button>
+          <button class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700" @click="callApi('fullscreen')">toggleFullscreen()</button>
+        </div>
+      </div>
     </article>
 
     <aside class="grid gap-4">
-      <div class="rounded-[28px] border border-white/10 bg-white/5 p-5 backdrop-blur-xl">
-        <h2 class="text-xl font-semibold text-white">Interactive controls</h2>
-        <p class="mt-2 text-sm leading-7 text-slate-300">
-          The playground uses the same public API that the npm package exports. Swap between replay and live presets, then call the exposed player methods.
+      <div class="rounded-[28px] border border-slate-200 bg-white p-5 shadow-[0_18px_40px_rgba(15,23,42,0.1)] dark:border-slate-700 dark:bg-slate-900 dark:shadow-none">
+        <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Interactive controls</h2>
+        <p class="mt-2 text-sm leading-7 text-slate-600 dark:text-slate-300">
+          Switch between replay and live presets, tweak mode and fit, then verify status and behavior from the event stream.
         </p>
         <div class="mt-5 grid gap-3">
-          <label class="text-xs uppercase tracking-[0.26em] text-slate-400">{{ sourceLabel }}</label>
-          <input v-model="source" class="rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm text-white outline-none ring-0" />
+          <label class="text-xs uppercase tracking-[0.26em] text-slate-500 dark:text-slate-300">{{ sourceLabel }}</label>
+          <input v-model="source" class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 outline-none ring-0 placeholder:text-slate-400 dark:border-slate-600 dark:bg-slate-950 dark:text-white" />
           <div class="grid grid-cols-3 gap-3">
-            <button class="rounded-2xl bg-amber-300/90 px-4 py-3 text-sm font-semibold text-slate-950" @click="usePreset('vod')">MP4</button>
-            <button class="rounded-2xl bg-sky-300/90 px-4 py-3 text-sm font-semibold text-slate-950" @click="usePreset('live')">HLS</button>
-            <button class="rounded-2xl bg-rose-300/90 px-4 py-3 text-sm font-semibold text-slate-950" @click="usePreset('flv')">WS-FLV</button>
+            <button class="rounded-2xl bg-amber-300 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-amber-200" @click="usePreset('vod')">MP4</button>
+            <button class="rounded-2xl bg-sky-300 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-sky-200" @click="usePreset('live')">HLS</button>
+            <button class="rounded-2xl bg-rose-300 px-4 py-3 text-sm font-semibold text-slate-900 transition hover:bg-rose-200" @click="usePreset('flv')">WS-FLV</button>
           </div>
           <div class="grid grid-cols-2 gap-3">
-            <button class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white" @click="mode = mode === 'live' ? 'vod' : 'live'">Toggle mode</button>
-            <button class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white" @click="fit = fit === 'contain' ? 'fill' : 'contain'">Toggle fit</button>
-            <button class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white" @click="muted = !muted">Toggle muted</button>
-            <button class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white" @click="autoplay = !autoplay">Toggle autoplay</button>
+            <button class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700" @click="mode = mode === 'live' ? 'vod' : 'live'">Toggle mode</button>
+            <button class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700" @click="fit = fit === 'contain' ? 'fill' : 'contain'">Toggle fit</button>
+            <button class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700" @click="muted = !muted">Toggle muted</button>
+            <button class="rounded-2xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 transition hover:bg-slate-100 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-100 dark:hover:bg-slate-700" @click="autoplay = !autoplay">Toggle autoplay</button>
           </div>
         </div>
       </div>
 
-      <div class="rounded-[28px] border border-white/10 bg-white/5 p-5 backdrop-blur-xl">
-        <h2 class="text-xl font-semibold text-white">Public instance</h2>
-        <div class="mt-4 grid grid-cols-2 gap-3">
-          <button class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white" @click="callApi('play')">play()</button>
-          <button class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white" @click="callApi('pause')">pause()</button>
-          <button class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white" @click="callApi('snapshot')">snapshot()</button>
-          <button class="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white" @click="callApi('fullscreen')">toggleFullscreen()</button>
-        </div>
-      </div>
-
-      <div class="rounded-[28px] border border-white/10 bg-slate-950/65 p-5 backdrop-blur-xl">
+      <div class="rounded-[28px] border border-slate-200 bg-slate-50 p-5 dark:border-slate-700 dark:bg-slate-950">
         <div class="flex items-center justify-between">
-          <h2 class="text-xl font-semibold text-white">Event log</h2>
-          <StatusBadge label="latest 10" tone="rose" />
+          <h2 class="text-xl font-semibold text-slate-900 dark:text-white">Event log</h2>
+          <div class="flex items-center gap-2">
+            <StatusBadge label="latest 10" tone="rose" />
+            <button class="rounded-full border border-slate-300 px-3 py-1 text-xs font-medium uppercase tracking-[0.16em] text-slate-600 transition hover:bg-slate-100 dark:border-slate-600 dark:text-slate-200 dark:hover:bg-slate-800" @click="clearLogs">Clear</button>
+          </div>
         </div>
-        <ul class="mt-4 grid gap-2 text-sm text-slate-300">
-          <li v-for="(log, index) in logs" :key="`${log}-${index}`" class="rounded-2xl border border-white/8 bg-white/5 px-3 py-2">
+        <ul class="mt-4 grid max-h-64 gap-2 overflow-auto pr-1 text-sm text-slate-700 dark:text-slate-300">
+          <li v-for="(log, index) in logs" :key="`${log}-${index}`" class="rounded-2xl border border-slate-200 bg-white px-3 py-2 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200">
             {{ log }}
           </li>
         </ul>

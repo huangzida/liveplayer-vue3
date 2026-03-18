@@ -12,7 +12,7 @@ import type {
 import { computed, nextTick, onMounted, ref, shallowRef, watch } from 'vue';
 
 import { ensureRuntimeScript } from '../runtime/asset-loader';
-import { loadPlayerComponent } from '../runtime/load-player';
+import { loadPlayerComponent, resolveRuntimeAssetUrls } from '../runtime/load-player';
 
 const props = withDefaults(defineProps<LivePlayerProps>(), {
   mode: 'vod',
@@ -101,9 +101,10 @@ const emitReady = () => {
 };
 
 const emitLoadError = (cause: unknown, code: LivePlayerError['code'], message: string) => {
+  const detail = cause instanceof Error ? cause.message : '';
   const error: LivePlayerError = {
     code,
-    message,
+    message: detail ? `${message} (${detail})` : message,
     cause,
   };
 
@@ -119,16 +120,15 @@ const initializePlayer = async () => {
   setStatus('loading');
 
   try {
+    const resolvedAssetUrls = resolveRuntimeAssetUrls(props.assetBaseUrl);
+    await ensureRuntimeScript(resolvedAssetUrls);
     const loaded = await loadPlayerComponent(props.assetBaseUrl);
-    assetUrls.value = loaded.assetUrls;
+
+    assetUrls.value = resolvedAssetUrls;
     playerComponent.value = loaded.component;
     renderKey.value += 1;
     await nextTick();
     emitReady();
-
-    void ensureRuntimeScript(loaded.assetUrls).catch((cause) => {
-      emitLoadError(cause, 'load_failed', 'Failed to load LivePlayer runtime assets.');
-    });
   } catch (cause) {
     emitLoadError(cause, 'load_failed', 'Failed to load LivePlayer runtime assets.');
   }

@@ -4,6 +4,7 @@ import type { Theme } from 'vitepress';
 import { LivePlayer } from '../../../src';
 import FeatureShowcase from '../../../playground/src/demos/FeatureShowcase.vue';
 import '../../../src/style.css';
+import './tailwind.css';
 import './custom.css';
 
 const theme: Theme = {

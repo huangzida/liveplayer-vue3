@@ -1,3 +1,7 @@
+---
+aside: false
+---
+
 # Examples
 
 ## Built-in showcase

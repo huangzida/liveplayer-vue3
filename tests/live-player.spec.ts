@@ -1,4 +1,4 @@
-import { mount } from '@vue/test-utils';
+import { flushPromises, mount } from '@vue/test-utils';
 import { defineComponent, h, nextTick } from 'vue';
 import { describe, expect, it, vi } from 'vitest';
 
@@ -15,6 +15,10 @@ const childMethods = {
 };
 
 vi.mock('../src/runtime/load-player', () => {
+  const mockAssetUrls = {
+    script: '/assets/liveplayer/liveplayer-lib.min.js',
+  };
+
   const StubPlayer = defineComponent({
     name: 'StubPlayer',
     props: {
@@ -54,14 +58,17 @@ vi.mock('../src/runtime/load-player', () => {
   });
 
   return {
+    resolveRuntimeAssetUrls: vi.fn(() => mockAssetUrls),
     loadPlayerComponent: vi.fn(async () => ({
       component: StubPlayer,
-      assetUrls: {
-        script: '/assets/liveplayer/liveplayer-lib.min.js',
-      },
+      assetUrls: mockAssetUrls,
     })),
   };
 });
+
+vi.mock('../src/runtime/asset-loader', () => ({
+  ensureRuntimeScript: vi.fn(async () => undefined),
+}));
 
 describe('LivePlayer', () => {
   it('maps the public API props to the wrapped player component and emits ready state', async () => {
@@ -79,7 +86,7 @@ describe('LivePlayer', () => {
       },
     });
 
-    await nextTick();
+    await flushPromises();
     await nextTick();
     await nextTick();
 
@@ -98,7 +105,7 @@ describe('LivePlayer', () => {
       },
     });
 
-    await nextTick();
+    await flushPromises();
     await nextTick();
 
     wrapper.vm.play();

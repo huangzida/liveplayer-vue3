@@ -1,6 +1,6 @@
 {
   "name": "liveplayer-vue3",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Enhanced Vue 3 wrapper for @liveqing/liveplayer-v3 with typed API, docs, and playground.",
   "type": "module",
   "license": "MIT",
@@ -61,7 +61,8 @@
     "pack:check": "pnpm build && pnpm pack --pack-destination .artifacts",
     "preview:docs": "vitepress preview docs",
     "publint": "publint",
-    "changelog": "changelogithub",
+    "changelog": "changelogithub --output CHANGELOG.md",
+    "changelog:github": "changelogithub",
     "release": "bumpp --all --commit --tag --push --yes --execute \"pnpm changelog\"",
     "release:check": "node scripts/validate-tag-version.mjs",
     "test": "vitest run",

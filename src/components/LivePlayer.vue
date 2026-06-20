@@ -15,12 +15,12 @@ import { ensureRuntimeScript } from '../runtime/asset-loader';
 import { loadPlayerComponent, resolveRuntimeAssetUrls } from '../runtime/load-player';
 
 const props = withDefaults(defineProps<LivePlayerProps>(), {
-  mode: 'vod',
+  mode: 'live',
   autoplay: true,
   controls: false,
-  muted: false,
+  muted: true,
   loop: false,
-  fit: 'contain',
+  fit: 'fill',
   timeout: 10,
   playbackRates: () => [0.5, 1, 1.5, 2],
   playbackRate: 1,

@@ -29,7 +29,6 @@
   },
   "files": [
     "dist",
-    "dist/assets",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
@@ -42,7 +41,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./style.css": "./dist/index.css",
+    "./vite-plugin": {
+      "types": "./dist/vite-plugin.d.ts",
+      "import": "./dist/vite-plugin.js"
+    },
+    "./style.css": "./dist/liveplayer-vue3.css",
     "./package.json": "./package.json"
   },
   "sideEffects": [
@@ -52,10 +55,10 @@
     "access": "public"
   },
   "scripts": {
-    "dev": "node scripts/sync-liveplayer-assets.mjs playground/public && vite --config playground/vite.config.ts",
-    "build": "vite build && node scripts/sync-liveplayer-assets.mjs dist",
+    "dev": "vite --config playground/vite.config.ts",
+    "build": "vite build",
     "build:docs": "node scripts/sync-vitepress-assets.mjs && vitepress build docs",
-    "build:playground": "node scripts/sync-liveplayer-assets.mjs playground/public && vite build --config playground/vite.config.ts",
+    "build:playground": "vite build --config playground/vite.config.ts",
     "dev:docs": "node scripts/sync-vitepress-assets.mjs && vitepress dev docs",
     "lint": "eslint .",
     "pack:check": "pnpm build && pnpm pack --pack-destination .artifacts",
@@ -71,10 +74,8 @@
     "verify": "pnpm lint && pnpm typecheck && pnpm build && pnpm build:docs && pnpm publint"
   },
   "peerDependencies": {
+    "@liveqing/liveplayer-v3": "^3.7.37",
     "vue": "^3.5.0"
-  },
-  "dependencies": {
-    "@liveqing/liveplayer-v3": "^3.7.37"
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",

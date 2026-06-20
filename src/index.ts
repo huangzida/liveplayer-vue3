@@ -13,9 +13,3 @@ export const install = async (app: App) => {
   await ensureLivePlayerRuntime();
   app.component('LivePlayer', LivePlayer);
 };
-
-if (typeof window !== 'undefined') {
-  ensureLivePlayerRuntime().catch((err) => {
-    console.error('[LivePlayer Vue3] Failed to auto-load LivePlayer runtime:', err);
-  });
-}

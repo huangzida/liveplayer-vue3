@@ -12,14 +12,31 @@
 ## 安装
 
 ```bash
-pnpm add liveplayer-vue3
+pnpm add liveplayer-vue3 @liveqing/liveplayer-v3
 ```
 
 Peer 依赖：
 
 - vue ^3.5.0
+- @liveqing/liveplayer-v3 ^3.7.37
 
 ## 快速开始
+
+### 第 1 步：注册 Vite 插件（推荐）
+
+Vite 插件会自动将 `liveplayer-lib.min.js` 从 `@liveqing/liveplayer-v3` 拷贝到 `public/assets/liveplayer/`（开发环境）和 `dist/assets/liveplayer/`（构建环境），无需手动拷贝。
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import { liveplayerVue3Plugin } from 'liveplayer-vue3/vite-plugin';
+
+export default defineConfig({
+  plugins: [liveplayerVue3Plugin()],
+});
+```
+
+### 第 2 步：使用组件
 
 ### 方式一：作为插件注册
 
@@ -54,13 +71,21 @@ import 'liveplayer-vue3/style.css';
 
 ## Runtime 资源加载机制
 
-组件会在导入底层播放器模块前，先自动加载 runtime 脚本：
+底层播放器（`@liveqing/liveplayer-v3`）依赖 runtime 脚本（`liveplayer-lib.min.js`）来提供 `window.videojs`。有两种方式加载该脚本：
 
-- 默认脚本地址：BASE_URL/assets/liveplayer/liveplayer-lib.min.js
-- 可通过 assetBaseUrl 指定自定义静态资源地址（如 CDN）
-- 加载器内置去重、超时、重试和就绪校验（window.videojs）
+### 方式 A：Vite 插件（推荐，零配置）
 
-使用自定义 CDN 示例：
+使用 `liveplayerVue3Plugin` 自动处理资源拷贝（见上方快速开始）。脚本会自动位于 `/assets/liveplayer/liveplayer-lib.min.js`，即默认路径，无需传 `assetBaseUrl`。
+
+### 方式 B：手动拷贝 + 自定义路径
+
+如果不使用 Vite 插件，需手动拷贝文件：
+
+```bash
+cp node_modules/@liveqing/liveplayer-v3/dist/component/liveplayer-lib.min.js public/assets/liveplayer/
+```
+
+或通过 `assetBaseUrl` 指向自定义地址（如 CDN）：
 
 ```vue
 <LivePlayer
@@ -68,6 +93,8 @@ import 'liveplayer-vue3/style.css';
   asset-base-url="https://cdn.example.com/liveplayer"
 />
 ```
+
+加载器内置去重、超时、重试和就绪校验（window.videojs）。
 
 ## 组件 API
 
@@ -81,9 +108,9 @@ import 'liveplayer-vue3/style.css';
 | mode | 'live' \| 'vod' | 'vod' | 播放模式 |
 | autoplay | boolean | true | 自动播放 |
 | controls | boolean | false | 是否显示控制条 |
-| muted | boolean | false | 是否静音 |
+| muted | boolean | true | 是否静音 |
 | loop | boolean | false | 是否循环 |
-| fit | 'contain' \| 'cover' \| 'fill' | 'contain' | 画面填充方式 |
+| fit | 'contain' \| 'cover' \| 'fill' | fill | 画面填充方式 |
 | timeout | number | 10 | 播放超时 |
 | playbackRates | number[] | [0.5, 1, 1.5, 2] | 倍速列表 |
 | playbackRate | number | 1 | 初始倍速 |

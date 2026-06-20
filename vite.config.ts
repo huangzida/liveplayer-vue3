@@ -11,13 +11,15 @@ export default defineConfig({
   ],
   build: {
     lib: {
-      entry: 'src/index.ts',
+      entry: {
+        index: 'src/index.ts',
+        'vite-plugin': 'src/vite-plugin.ts',
+      },
       name: 'LivePlayerVue3',
-      fileName: 'index',
       formats: ['es'],
     },
     rollupOptions: {
-      external: ['vue'],
+      external: ['vue', '@liveqing/liveplayer-v3', 'vite', 'node:fs', 'node:path'],
     },
   },
 });

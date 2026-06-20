@@ -12,14 +12,31 @@ Vue 3 wrapper around `@liveqing/liveplayer-v3` with:
 ## Install
 
 ```bash
-pnpm add liveplayer-vue3
+pnpm add liveplayer-vue3 @liveqing/liveplayer-v3
 ```
 
-Peer dependency:
+Peer dependencies:
 
 - `vue` `^3.5.0`
+- `@liveqing/liveplayer-v3` `^3.7.37`
 
 ## Quick Start
+
+### 1. Register the Vite plugin (recommended)
+
+The Vite plugin automatically copies `liveplayer-lib.min.js` from `@liveqing/liveplayer-v3` to `public/assets/liveplayer/` (dev) and `dist/assets/liveplayer/` (build). No manual copy needed.
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite';
+import { liveplayerVue3Plugin } from 'liveplayer-vue3/vite-plugin';
+
+export default defineConfig({
+  plugins: [liveplayerVue3Plugin()],
+});
+```
+
+### 2. Use the component
 
 ### Option 1: Register as plugin
 
@@ -54,13 +71,21 @@ import 'liveplayer-vue3/style.css';
 
 ## Runtime Asset Loading
 
-The wrapper auto-loads runtime script assets before importing the wrapped player module.
+The wrapped player (`@liveqing/liveplayer-v3`) depends on a runtime script (`liveplayer-lib.min.js`) that provides `window.videojs`. There are two ways to make this script available:
 
-- default runtime script URL: `BASE_URL/assets/liveplayer/liveplayer-lib.min.js`
-- custom host/path: set `assetBaseUrl`
-- loader has dedupe, timeout, retry, and readiness checks (`window.videojs`)
+### Option A: Vite plugin (recommended, zero config)
 
-Example with custom CDN:
+Use the `liveplayerVue3Plugin` — it handles copying automatically (see Quick Start above). The script will be available at `/assets/liveplayer/liveplayer-lib.min.js`, which is the default path. No `assetBaseUrl` needed.
+
+### Option B: Manual copy + custom path
+
+If you prefer not to use the Vite plugin, copy the file manually:
+
+```bash
+cp node_modules/@liveqing/liveplayer-v3/dist/component/liveplayer-lib.min.js public/assets/liveplayer/
+```
+
+Or point to a custom host/path via `assetBaseUrl`:
 
 ```vue
 <LivePlayer
@@ -68,6 +93,8 @@ Example with custom CDN:
 	asset-base-url="https://cdn.example.com/liveplayer"
 />
 ```
+
+The loader has dedupe, timeout, retry, and readiness checks (`window.videojs`).
 
 ## Component API
 
@@ -78,12 +105,12 @@ Example with custom CDN:
 | `src` | `string` | required | Stream URL |
 | `title` | `string` | `undefined` | Video title |
 | `poster` | `string` | `undefined` | Poster image |
-| `mode` | `'live' \| 'vod'` | `'vod'` | Player mode |
+| `mode` | `'live' \| 'vod'` | `'live'` | Player mode |
 | `autoplay` | `boolean` | `true` | Auto-play behavior |
 | `controls` | `boolean` | `false` | Native controls visibility |
-| `muted` | `boolean` | `false` | Mute state |
+| `muted` | `boolean` | `true` | Mute state |
 | `loop` | `boolean` | `false` | Loop playback |
-| `fit` | `'contain' \| 'cover' \| 'fill'` | `'contain'` | Layout fit |
+| `fit` | `'contain' \| 'cover' \| 'fill'` | `'fill'` | Layout fit |
 | `timeout` | `number` | `10` | Player timeout |
 | `playbackRates` | `number[]` | `[0.5, 1, 1.5, 2]` | Speed options |
 | `playbackRate` | `number` | `1` | Initial speed |

@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import { fileURLToPath } from 'node:url';
 
+import { liveplayerVue3Plugin } from '../src/vite-plugin';
+
 const playgroundRoot = fileURLToPath(new URL('./', import.meta.url));
 const isGithubPages = process.env.GITHUB_ACTIONS === 'true' && process.env.GITHUB_REPOSITORY;
 const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'liveplayer-vue3';
@@ -9,7 +11,7 @@ const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'liveplayer-vue
 export default defineConfig({
   root: playgroundRoot,
   base: isGithubPages ? `/${repoName}/` : '/',
-  plugins: [vue()],
+  plugins: [vue(), liveplayerVue3Plugin()],
   publicDir: fileURLToPath(new URL('./public', import.meta.url)),
   resolve: {
     alias: {

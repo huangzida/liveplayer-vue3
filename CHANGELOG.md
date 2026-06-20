@@ -1,10 +1,5 @@
 ### &nbsp;&nbsp;&nbsp;🚀 Features
 
-- 实现LivePlayer运行时自动加载功能 &nbsp;-&nbsp; by **huangzida** [<samp>(68a1a)</samp>](https://github.com/huangzida/liveplayer-vue3/commit/68a1aed)
-- 增强 LivePlayer 组件，支持自动加载 runtime 资源并优化错误处理 &nbsp;-&nbsp; by **huangzida** [<samp>(485c7)</samp>](https://github.com/huangzida/liveplayer-vue3/commit/485c710)
+- 新增 Vite 插件，更新组件默认配置与资源处理逻辑 &nbsp;-&nbsp; by **huangzida** [<samp>(dbc41)</samp>](https://github.com/huangzida/liveplayer-vue3/commit/dbc4137)
 
-### &nbsp;&nbsp;&nbsp;🐞 Bug Fixes
-
-- **docs**: 修复 GitHub Pages 部署时脚本路径错误 &nbsp;-&nbsp; by **huangzida** [<samp>(56763)</samp>](https://github.com/huangzida/liveplayer-vue3/commit/5676317)
-
-##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/huangzida/liveplayer-vue3/compare/69bc9c6fa0f297b17773ff1aa6db3fc491fc082e...main)
+##### &nbsp;&nbsp;&nbsp;&nbsp;[View changes on GitHub](https://github.com/huangzida/liveplayer-vue3/compare/v0.1.1...main)

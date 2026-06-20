@@ -1,6 +1,6 @@
 {
   "name": "liveplayer-vue3",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Enhanced Vue 3 wrapper for @liveqing/liveplayer-v3 with typed API, docs, and playground.",
   "type": "module",
   "license": "MIT",

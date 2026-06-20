@@ -148,6 +148,7 @@ export function liveplayerVue3Plugin(options: LiveplayerVue3PluginOptions = {}):
   let outDir: string;
   let command: string;
   let cachedAssetsDir: string | null = null;
+  let copied = false;
 
   const getAssetsDir = () => {
     if (cachedAssetsDir === null) {
@@ -188,8 +189,13 @@ export function liveplayerVue3Plugin(options: LiveplayerVue3PluginOptions = {}):
 
       server.middlewares.use(createAssetsMiddleware(assetsDir));
     },
-    buildStart() {
-      if (!enabled || command !== 'build') return;
+    // 注意：拷贝必须在 writeBundle 而非 buildStart 中进行。
+    // Vite 的 emptyOutDir 清空 outDir 发生在 buildStart 之后、bundle.write() 之前，
+    // 在 buildStart 拷贝会导致文件被清空。writeBundle 在产物写入完成后触发，
+    // 此时 emptyOutDir 已执行完，文件能保留到最终产物中。
+    // 使用 copied 标记避免多 output 场景下重复拷贝。
+    writeBundle() {
+      if (!enabled || command !== 'build' || copied) return;
 
       const assetsDir = getAssetsDir();
       if (!assetsDir) return;
@@ -197,6 +203,7 @@ export function liveplayerVue3Plugin(options: LiveplayerVue3PluginOptions = {}):
       const targetDir = resolve(projectRoot, outDir, PUBLIC_TARGET_DIR);
       try {
         copyDirRecursive(assetsDir, targetDir);
+        copied = true;
         console.log(`[${PLUGIN_NAME}] Runtime assets copied to: ${targetDir}`);
       } catch (err) {
         console.error(`[${PLUGIN_NAME}] Failed to copy runtime assets:`, err);
